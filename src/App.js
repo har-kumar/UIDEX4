@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import ProductList from './ProductList';
+import Cart from './Cart';
+import Checkout from './Checkout';
 
 function App() {
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (product) => {
+    setCartItems([...cartItems, product]);
+  };
+
+  const removeFromCart = (product) => {
+    setCartItems(cartItems.filter(item => item.id !== product.id)); // Ensure unique products with id
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>E-Commerce Store</h1>
       </header>
+      <ProductList addToCart={addToCart} />
+      <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
+      <Checkout cartItems={cartItems} />
+      <footer className="footer">
+        <p>&copy; 2024 E-Commerce Store. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
